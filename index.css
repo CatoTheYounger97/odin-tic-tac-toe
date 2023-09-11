@@ -8,3 +8,7 @@
     grid-template-rows: repeat(3, 200px);
 
 }
+
+.GameBoard {
+    font-size: 5rem;
+}
