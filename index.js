@@ -43,7 +43,7 @@ const displayHandle = (() => {
     const boardCells = document.querySelectorAll('.GameBoard');
     const winStatusDiv = document.querySelector('#win-status');
 
-    const displayUpdate = () => {
+    const displayUpdate = (winStatus) => {
         const board = gameBoard.board;
         for (let i = 0; i < board.length; ++i)
         {
@@ -53,6 +53,8 @@ const displayHandle = (() => {
                 boardCells[i].textContent = board[i];
             }
         }
+
+        winStatusDiv.textContent = winStatus;
 
 
     };
@@ -170,11 +172,11 @@ const gameLogic = (() => {
         let winStatus = '';
         if (checkWinCondition()) {
             console.log(gameBoard.activePlayer.mark + ' wins!');
-            winStatus = 'win';
+            winStatus = gameBoard.activePlayer.mark + '\'s win';
 
             gameBoard.activePlayer.score++;
             
-            displayHandle.displayUpdate();
+            displayHandle.displayUpdate(winStatus);
             endState();
 
 
@@ -182,7 +184,7 @@ const gameLogic = (() => {
             console.log('draw');
             winStatus = 'draw';
 
-            displayHandle.displayUpdate();
+            displayHandle.displayUpdate(winStatus);
             endState();
 
         } else {
@@ -190,7 +192,7 @@ const gameLogic = (() => {
         }
 
         switchActivePlayer();
-        displayHandle.displayUpdate();
+        displayHandle.displayUpdate(winStatus);
 
         ++turnCount;
 
@@ -206,6 +208,8 @@ const gameLogic = (() => {
         gameBoard.reset();
         displayHandle.reset();
         turnCount = 0;
+        winStatus = '';
+        displayHandle.displayUpdate(winStatus);
     };
 
     return {
